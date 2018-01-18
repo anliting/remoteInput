@@ -15,7 +15,28 @@ function get(path){
 let
     composing=0,
     input
+dom.head(
+    dom.style(`
+        html{
+            height:100%;
+        }
+        body{
+            margin:0;
+            height:100%;
+        }
+        body>input{
+            border:unset;
+            padding:unset;
+            width:0;
+        }
+    `)
+)
 dom.body(
+    {
+        onclick(){
+            input.focus()
+        }
+    },
     input=dom.input({oninput(e){
         if(e.isComposing)
             return
