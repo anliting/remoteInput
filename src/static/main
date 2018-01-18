@@ -1,0 +1,38 @@
+<!doctype html>
+<title>Remote Input</title>
+<body>
+<script type=module>
+import{dom}from'https://gitcdn.link/cdn/anliting/simple.js/55124630741399dd0fcbee2f0396642a428cdd24/src/simple.static.js'
+function get(path){
+    let rq=new XMLHttpRequest
+    rq.open('GET',path)
+    rq.send()
+    return new Promise(rs=>
+        rq.onreadystatechange=()=>
+            rq.readyState==4&&rq.status==200&&rs(rq.responseText)
+    )
+}
+let
+    composing=0,
+    input
+dom.body(
+    input=dom.input({oninput(e){
+        if(e.isComposing)
+            return
+        let value=this.value
+        this.value=''
+        get(`/api/${JSON.stringify({
+            method: 'in',
+            value,
+        })}`)
+    }})
+)
+input.focus()
+window.ui={
+    async out(){
+        console.log(await get(`/api/${JSON.stringify({
+            method: 'out',
+        })}`))
+    }
+}
+</script>

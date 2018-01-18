@@ -1,3 +1,18 @@
-// port 1046 by ~~(1024+Math.random()*1024)
 let
+    child_process=require('child_process'),
     http=require('http')
+setInterval(()=>{
+    http.get(`http://anliting.com:1046/api/${JSON.stringify({
+        method:'out'
+    })}`,res=>{
+        let a=[]
+        res.on('data',a.push.bind(a))
+        res.on('end',()=>{
+            let s=Buffer.concat(a).toString()
+            for(let i=0;i<s.length;i++)
+                child_process.execFileSync(
+                    'sendByWmChar',[s[i].charCodeAt(0)]
+                )
+        })
+    })
+},1e2)
