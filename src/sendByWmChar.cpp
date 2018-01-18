@@ -19,6 +19,5 @@ void send(int n){
     SendMessageW(GetGlobalFocus(),WM_CHAR,n,(LPARAM)1);
 }
 int main(int argc,char**argv){
-    Sleep(1000);
     send(atoi(argv[1]));
 }
