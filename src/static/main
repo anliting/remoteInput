@@ -14,8 +14,7 @@ function get(path){
 }
 let
     composing=0,
-    input,
-    debug
+    input
 function checkValue(){
     if(composing)
         return
@@ -48,19 +47,15 @@ dom.body(
             input.focus()
         }
     },
-    debug=dom.pre(),
     input=dom.input(n=>{
         n.addEventListener('compositionstart',e=>{
-            //debug.textContent=`compositionstart(${n.value})\n`+debug.textContent
             composing=1
         })
         n.addEventListener('compositionend',e=>{
-            //debug.textContent=`compositionend(${n.value})\n`+debug.textContent
             composing=0
             checkValue()
         })
         n.addEventListener('input',e=>{
-            //debug.textContent=`input(${this.value,e.isComposing})\n`+debug.textContent
             checkValue()
         })
     }),
