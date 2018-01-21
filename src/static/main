@@ -14,7 +14,18 @@ function get(path){
 }
 let
     composing=0,
-    input
+    input,
+    debug
+function checkValue(){
+    if(composing)
+        return
+    let value=input.value
+    input.value=''
+    get(`/api/${JSON.stringify({
+        method: 'in',
+        value,
+    })}`)
+}
 dom.head(
     dom.style(`
         html{
@@ -37,16 +48,22 @@ dom.body(
             input.focus()
         }
     },
-    input=dom.input({oninput(e){
-        if(e.isComposing)
-            return
-        let value=this.value
-        this.value=''
-        get(`/api/${JSON.stringify({
-            method: 'in',
-            value,
-        })}`)
-    }})
+    debug=dom.pre(),
+    input=dom.input(n=>{
+        n.addEventListener('compositionstart',e=>{
+            //debug.textContent=`compositionstart(${n.value})\n`+debug.textContent
+            composing=1
+        })
+        n.addEventListener('compositionend',e=>{
+            //debug.textContent=`compositionend(${n.value})\n`+debug.textContent
+            composing=0
+            checkValue()
+        })
+        n.addEventListener('input',e=>{
+            //debug.textContent=`input(${this.value,e.isComposing})\n`+debug.textContent
+            checkValue()
+        })
+    }),
 )
 input.focus()
 window.ui={
