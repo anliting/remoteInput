@@ -1,3 +1,4 @@
+#define WINVER 0x0601
 #include<stdlib.h>
 #include<windows.h>
 HWND GetGlobalFocus(){
@@ -16,7 +17,11 @@ HWND GetGlobalFocus(){
     return res;
 }
 void send(int n){
-    SendMessageW(GetGlobalFocus(),WM_CHAR,n,(LPARAM)1);
+    /*
+        WM_CHAR dont' work with MS Office, but it work with Notepad++.
+        WM_IME_CHAR dont' work with Notepad++, but it work with MS Office.
+    */
+    SendMessageW(GetGlobalFocus(),WM_IME_CHAR,n,(LPARAM)1);
 }
 int main(int argc,char**argv){
     send(atoi(argv[1]));
