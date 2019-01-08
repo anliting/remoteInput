@@ -1,6 +1,6 @@
 let
-    child_process=require('child_process'),
-    http=require('http')
+    child_process=  require('child_process'),
+    http=           require('http')
 setInterval(()=>{
     http.get(`http://anliting.com:1046/api/${JSON.stringify({
         method:'out'
