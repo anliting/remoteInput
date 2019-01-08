@@ -11,7 +11,7 @@ setInterval(()=>{
             let s=Buffer.concat(a).toString()
             for(let i=0;i<s.length;i++)
                 child_process.execFileSync(
-                    'sendByWmChar',[s[i].charCodeAt(0)]
+                    'sendByWmImeChar',[s[i].charCodeAt(0)]
                 )
         })
     })
