@@ -1,12 +1,12 @@
 // port 1046 by ~~(1024+Math.random()*1024)
 let
-    {URL}=require('url'),
-    fs=require('mz/fs'),
-    http=require('http'),
+    {URL}=          require('url'),
+    fs=             require('fs'),
+    http=           require('http'),
     route={
         '/':{
-            type:'text/html;charset=utf-8',
-            content:fs.readFileSync('static/main'),
+            type:       'text/html;charset=utf-8',
+            content:    fs.readFileSync('static/main'),
         },
     }
 let s=''
