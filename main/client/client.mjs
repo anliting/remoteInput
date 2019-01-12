@@ -12,5 +12,6 @@ setInterval(async()=>{
                 'client\sendByWmImeChar',[s[i].charCodeAt(0)]
             )
     }catch(e){
+console.log(e)
     }
 },1e2)
