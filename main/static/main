@@ -59,8 +59,12 @@ dom.body(
 )
 input.focus()
 window.ui={
-    async out(){
-        console.log(await get(`/api/${encodeURIComponent(JSON.stringify(['out']))}`))
+    out(){
+        ;(async()=>{
+            console.log(await get(`/api/${
+                encodeURIComponent(JSON.stringify(['out']))
+            }`))
+        })()
     }
 }
 </script>
