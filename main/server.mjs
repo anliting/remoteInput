@@ -15,6 +15,7 @@ http.createServer(async(rq,rs)=>{
     if(rq.method!='GET')
         rs.end()
     let url,splittedPathname,decodedPathname
+console.log('a')
     try{
         url=new URL(rq.url,'http://a')
         splittedPathname=url.pathname.split('/')
@@ -24,6 +25,7 @@ http.createServer(async(rq,rs)=>{
         rs.end()
         return
     }
+console.log('b')
     if(decodedPathname[1]=='api'){
         let a
         try{
