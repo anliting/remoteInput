@@ -1,1 +1,2 @@
-node --experimental-modules client\client
+cd client
+node --experimental-modules client
