@@ -9,7 +9,7 @@ setInterval(async()=>{
         let s=(await getData(res)).toString()
         for(let i=0;i<s.length;i++)
             child_process.execFileSync(
-                'client\sendByWmImeChar',[s[i].charCodeAt(0)]
+                'sendByWmImeChar',[s[i].charCodeAt(0)]
             )
     }catch(e){
     }

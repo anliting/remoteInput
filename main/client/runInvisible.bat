@@ -1,3 +1,3 @@
 d:
-cd d:\anliting\remoteInput\main
-wscript.exe "client\invisible.vbs" "client\start.bat"
+cd d:\anliting\remoteInput\main\client
+wscript.exe "invisible.vbs" "start.bat"
