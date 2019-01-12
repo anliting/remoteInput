@@ -16,21 +16,28 @@ http.createServer(async(rq,rs)=>{
         rs.end()
     let
         url=new URL(rq.url,'http://a.a/'),
-        decodedPathname=decodeURIComponent(url.pathname),
-        splittedPathname=decodedPathname.split('/')
-    if(splittedPathname[1]=='api'){
-        let a=JSON.parse(splittedPathname[2])
-        if(a.method=='in'){
-            s+=a.value
+        splittedPathname=url.pathname.split('/'),
+        decodedPathname=splittedPathname.map(decodeURIComponent)
+    if(decodedPathname[1]=='api'){
+        let a
+        try{
+            a=JSON.parse(splittedPathname[2])
+        }catch(e){
+            rs.writeHead(400)
+            rs.end()
+            return
+        }
+        if(a[0]=='in'){
+            s+=a[1]
             rs.writeHead(200)
             rs.end()
-        }else if(a.method=='out'){
+        }else if(a[0]=='out'){
             rs.writeHead(200)
             rs.end(s)
             s=''
         }
-    }else if(decodedPathname in route){
-        let a=route[decodedPathname]
+    }else if(url.pathname in route){
+        let a=route[url.pathname]
         rs.writeHead(200,{'content-type':a.type})
         rs.end(a.content)
     }else{

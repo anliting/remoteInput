@@ -20,10 +20,7 @@ function checkValue(){
         return
     let value=input.value
     input.value=''
-    get(`/api/${JSON.stringify({
-        method: 'in',
-        value,
-    })}`)
+    get(`/api/${JSON.stringify(['in',value])}`)
 }
 dom.head(
     dom.style(`
@@ -63,9 +60,7 @@ dom.body(
 input.focus()
 window.ui={
     async out(){
-        console.log(await get(`/api/${JSON.stringify({
-            method: 'out',
-        })}`))
+        console.log(await get(`/api/${encodeURIComponent(JSON.stringify(['out']))}`))
     }
 }
 </script>
