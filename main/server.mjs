@@ -14,14 +14,20 @@ let s=''
 http.createServer(async(rq,rs)=>{
     if(rq.method!='GET')
         rs.end()
-    let
-        url=new URL(rq.url,'http://a.a/'),
-        splittedPathname=url.pathname.split('/'),
+    let url,splittedPathname,decodedPathname
+    try{
+        url=new URL(rq.url,'http://a')
+        splittedPathname=url.pathname.split('/')
         decodedPathname=splittedPathname.map(decodeURIComponent)
+    }catch(e){
+        rs.writeHead(400)
+        rs.end()
+        return
+    }
     if(decodedPathname[1]=='api'){
         let a
         try{
-            a=JSON.parse(splittedPathname[2])
+            a=JSON.parse(decodedPathname[2])
         }catch(e){
             rs.writeHead(400)
             rs.end()
