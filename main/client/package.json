@@ -1,5 +1,5 @@
 {
-    "name":"remoteInput",
+    "name":"remote-input-client",
     "version":"0.0.0",
     "dependencies":[
         "concat-stream"
