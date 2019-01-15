@@ -3,35 +3,33 @@ import url from     'url'
 import fs from      'fs'
 import http from    'http'
 let
-    {URL}=url,
     route={
         '/':{
             type:       'text/html;charset=utf-8',
-            content:    fs.readFileSync('static/main'),
+            content:    fs.readFileSync('remoteInput/main/server/static/main'),
         },
-    }
-let s=''
+    },
+    s=''
 http.createServer(async(rq,rs)=>{
     if(rq.method!='GET')
-        rs.end()
-    let url,splittedPathname,decodedPathname
+        return rs.end()
+    let parse={}
     try{
-        url=new URL(rq.url,'http://a')
-        splittedPathname=url.pathname.split('/')
-        decodedPathname=splittedPathname.map(decodeURIComponent)
+        parse.url=new url.URL(rq.url,'http://a')
+        parse.decodedPathname=parse.url.pathname.split('/').map(
+            decodeURIComponent
+        )
     }catch(e){
         rs.writeHead(400)
-        rs.end()
-        return
+        return rs.end()
     }
-    if(decodedPathname[1]=='api'){
+    if(parse.decodedPathname[1]=='api'){
         let a
         try{
-            a=JSON.parse(decodedPathname[2])
+            a=JSON.parse(parse.decodedPathname[2])
         }catch(e){
             rs.writeHead(400)
-            rs.end()
-            return
+            return rs.end()
         }
         if(a[0]=='in'){
             s+=a[1]
@@ -42,12 +40,12 @@ http.createServer(async(rq,rs)=>{
             rs.end(s)
             s=''
         }
-    }else if(url.pathname in route){
-        let a=route[url.pathname]
+    }else if(parse.url.pathname in route){
+        let a=route[parse.url.pathname]
         rs.writeHead(200,{'content-type':a.type})
         rs.end(a.content)
     }else{
-        rs.writeHead(400)
+        rs.writeHead(404)
         rs.end()
     }
 }).listen(1046)
