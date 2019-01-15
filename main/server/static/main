@@ -3,24 +3,25 @@
 <body>
 <script type=module>
 import{dom}from'https://gitcdn.link/cdn/anliting/simple.js/55124630741399dd0fcbee2f0396642a428cdd24/src/simple.static.js'
-function get(path){
-    let rq=new XMLHttpRequest
-    rq.open('GET',path)
-    rq.send()
-    return new Promise(rs=>
-        rq.onreadystatechange=()=>
-            rq.readyState==4&&rq.status==200&&rs(rq.responseText)
-    )
+async function get(path){
+    let res=await fetch(new Request(path))
+    if(!res.ok)
+        throw['HttpStatus',res.status]
+    return res
 }
 let
     composing=0,
-    input
+    input,
+    readyToSend
 function checkValue(){
     if(composing)
         return
     let value=input.value
     input.value=''
-    get(`/api/${JSON.stringify(['in',value])}`)
+    readyToSend=(async()=>{
+        await readyToSend
+        await get(`/api/${JSON.stringify(['in',value])}`)
+    })()
 }
 dom.head(
     dom.style(`
@@ -61,9 +62,11 @@ input.focus()
 window.ui={
     out(){
         ;(async()=>{
-            console.log(await get(`/api/${
-                encodeURIComponent(JSON.stringify(['out']))
-            }`))
+            console.log(
+                await(await get(`/api/${
+                    encodeURIComponent(JSON.stringify(['out']))
+                }`)).text()
+            )
         })()
     }
 }
