@@ -2,11 +2,16 @@
 import url from     'url'
 import fs from      'fs'
 import http from    'http'
+import net from     'net'
 let
     route={
         '/':{
             type:       'text/html;charset=utf-8',
             content:    fs.readFileSync('remoteInput/main/server/static/main'),
+        },
+        '/_doe.mjs':{
+            type:       'application/javascript;charset=utf-8',
+            content:    fs.readFileSync('remoteInput/main/server/static/doe.mjs'),
         },
     },
     s=''
@@ -49,3 +54,10 @@ http.createServer(async(rq,rs)=>{
         rs.end()
     }
 }).listen(1046)
+net.createServer(con=>{
+    con.on('connect',()=>{
+    }).on('data',()=>{
+    }).on('end',()=>{
+    }).on('timeout',()=>{
+    }).setTimeout(60e3)
+}).listen(1047)

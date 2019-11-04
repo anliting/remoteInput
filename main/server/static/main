@@ -2,11 +2,11 @@
 <title>Remote Input</title>
 <body>
 <script type=module>
-import{dom}from'https://gitcdn.link/cdn/anliting/simple.js/55124630741399dd0fcbee2f0396642a428cdd24/src/simple.static.js'
+import doe from'./_doe.mjs'
 async function get(path){
     let res=await fetch(new Request(path))
     if(!res.ok)
-        throw['HttpStatus',res.status]
+        throw['httpStatus',res.status]
     return res
 }
 let
@@ -23,8 +23,8 @@ function checkValue(){
         await get(`/api/${JSON.stringify(['in',value])}`)
     })()
 }
-dom.head(
-    dom.style(`
+doe.head(
+    doe.style(`
         html{
             height:100%;
         }
@@ -39,13 +39,13 @@ dom.head(
         }
     `)
 )
-dom.body(
+doe.body(
     {
         onclick(){
             input.focus()
         }
     },
-    input=dom.input(n=>{
+    input=doe.input(n=>{
         n.addEventListener('compositionstart',e=>{
             composing=1
         })
