@@ -1,1 +1,1 @@
-node --experimental-modules client
+node --experimental-modules main.mjs

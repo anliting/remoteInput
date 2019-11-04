@@ -3,18 +3,42 @@ import url from     'url'
 import fs from      'fs'
 import http from    'http'
 import net from     'net'
+import path from    'path'
 let
+    mainDir=path.dirname((new url.URL(import.meta.url)).pathname),
+    tcpListen=(''+fs.readFileSync('tcpListen')).split(' '),
+    httpListen=(''+fs.readFileSync('httpListen')).split(' '),
     route={
         '/':{
             type:       'text/html;charset=utf-8',
-            content:    fs.readFileSync('remoteInput/main/server/static/main'),
+            content:    fs.readFileSync(`${mainDir}/static/main`),
         },
         '/_doe.mjs':{
             type:       'application/javascript;charset=utf-8',
-            content:    fs.readFileSync('remoteInput/main/server/static/doe.mjs'),
+            content:    fs.readFileSync(`${mainDir}/static/doe.mjs`),
         },
     },
+    s='',
+    mainConnection
+function pushToMainConnection(){
+    if(!(s&&mainConnection))
+        return
+    mainConnection.write(s)
     s=''
+}
+net.createServer(con=>{
+    mainConnection=con
+    pushToMainConnection()
+    con.on('data',()=>{
+    }).on('end',()=>{
+        if(mainConnection==con)
+            mainConnection=0
+    }).on('timeout',()=>{
+        con.end()
+        if(mainConnection==con)
+            mainConnection=0
+    }).setTimeout(60e3)
+}).listen(...tcpListen)
 http.createServer(async(rq,rs)=>{
     if(rq.method!='GET')
         return rs.end()
@@ -38,6 +62,7 @@ http.createServer(async(rq,rs)=>{
         }
         if(a[0]=='in'){
             s+=a[1]
+            pushToMainConnection()
             rs.writeHead(200)
             rs.end()
         }else if(a[0]=='out'){
@@ -53,11 +78,4 @@ http.createServer(async(rq,rs)=>{
         rs.writeHead(404)
         rs.end()
     }
-}).listen(1046)
-net.createServer(con=>{
-    con.on('connect',()=>{
-    }).on('data',()=>{
-    }).on('end',()=>{
-    }).on('timeout',()=>{
-    }).setTimeout(60e3)
-}).listen(1047)
+}).listen(...httpListen)
