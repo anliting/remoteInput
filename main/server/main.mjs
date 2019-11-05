@@ -65,11 +65,10 @@ http.createServer(async(rq,rs)=>{
             pushToMainConnection()
             rs.writeHead(200)
             rs.end()
-        }else if(a[0]=='out'){
-            rs.writeHead(200)
-            rs.end(s)
-            s=''
+            return
         }
+        rs.writeHead(400)
+        return rs.end()
     }else if(parse.url.pathname in route){
         let a=route[parse.url.pathname]
         rs.writeHead(200,{'content-type':a.type})
