@@ -14,7 +14,7 @@ function tryConnect(){
     }).on('end',()=>{
         setTimeout(tryConnect,1e3)
     }).on('timeout',()=>{
-        connection.end()
+        connection.destroy()
         setTimeout(tryConnect,1e3)
     }).on('error',e=>{
         if(
