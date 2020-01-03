@@ -20,7 +20,8 @@ function tryConnect(){
         if(
             e.code=='ECONNREFUSED'||
             e.code=='ETIMEDOUT'||
-            e.code=='ECONNRESET'
+            e.code=='ECONNRESET'||
+            e.code=='EADDRINUSE'
         ){
             setTimeout(tryConnect,1e3)
             return
