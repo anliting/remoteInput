@@ -22,6 +22,6 @@ function tryConnect(){
             return
         }
         throw e
-    })
+    }).setTimeout(60e3)
 }
 tryConnect()
