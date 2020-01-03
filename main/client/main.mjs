@@ -27,6 +27,6 @@ function tryConnect(){
         }
         console.error('connection/error',e)
         process.exit()
-    }).setTimeout(1e3)
+    }).setTimeout(60e3)
 }
 tryConnect()
