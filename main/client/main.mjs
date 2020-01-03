@@ -19,10 +19,8 @@ function tryConnect(){
     }).on('error',e=>{
         if(
             e.code=='ECONNREFUSED'||
-            e.code=='ETIMEDOUT'||
             e.code=='ECONNRESET'||
-            e.code=='EADDRINUSE'||
-            e.code=='ENOBUFS'
+            e.code=='ETIMEDOUT'
         ){
             setTimeout(tryConnect,1e3)
             return
