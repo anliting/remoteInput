@@ -1,1 +1,1 @@
-node --experimental-modules main.mjs
+node --experimental-modules main.mjs 2>error
