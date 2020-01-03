@@ -17,11 +17,15 @@ function tryConnect(){
         connection.end()
         setTimeout(tryConnect,1e3)
     }).on('error',e=>{
-        if(e.code=='ECONNREFUSED'){
+        if(
+            e.code=='ECONNREFUSED'||
+            e.code=='ETIMEDOUT'
+        ){
             setTimeout(tryConnect,1e3)
             return
         }
-        throw e
-    }).setTimeout(60e3)
+        console.error('connection/error',e)
+        process.exit()
+    }).setTimeout(1e3)
 }
 tryConnect()
