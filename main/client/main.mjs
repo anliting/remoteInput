@@ -18,13 +18,10 @@ function tryConnect(){
         setTimeout(tryConnect,1e3)
     }).on('error',e=>{
         if(
-            e.code=='ECONNREFUSED'||
-            e.code=='ECONNRESET'||
-            e.code=='ETIMEDOUT'
-        ){
-            setTimeout(tryConnect,1e3)
-            return
-        }
+            e instanceof SystemError
+            //&&['ECONNREFUSED','ECONNRESET','ETIMEDOUT'].includes(e.code)
+        )
+             return setTimeout(tryConnect,1e3)
         console.error('connection/error',e)
         process.exit()
     }).setTimeout(60e3)
