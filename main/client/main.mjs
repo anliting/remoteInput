@@ -16,14 +16,8 @@ function tryConnect(){
     }).on('timeout',()=>{
         connection.destroy()
         setTimeout(tryConnect,1e3)
-    }).on('error',e=>{
-        if(
-            e instanceof SystemError
-            //&&['ECONNREFUSED','ECONNRESET','ETIMEDOUT'].includes(e.code)
-        )
-             return setTimeout(tryConnect,1e3)
-        console.error('connection/error',e)
-        process.exit()
+    }).on('error',()=>{
+        setTimeout(tryConnect,1e3)
     }).setTimeout(60e3)
 }
 tryConnect()
