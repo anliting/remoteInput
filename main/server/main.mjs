@@ -5,8 +5,8 @@ import net from     'net'
 import path from    'path'
 let
     mainDir=path.dirname((new url.URL(import.meta.url)).pathname),
-    tcpListen=(''+fs.readFileSync('tcpListen')).split(' '),
-    httpListen=(''+fs.readFileSync('httpListen')).split(' '),
+    tcpListen=(''+fs.readFileSync('tcpListen')).split('\n')[0].split(' '),
+    httpListen=(''+fs.readFileSync('httpListen')).split('\n')[0].split(' '),
     route={
         '/':{
             type:       'text/html;charset=utf-8',
