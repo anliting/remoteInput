@@ -1,0 +1,5 @@
+{
+    "dependencies":{
+        "@anliting/core":"anliting/core"
+    }   
+}
